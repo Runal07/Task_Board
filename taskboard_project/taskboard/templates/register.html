@@ -1,0 +1,314 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <style>
+         .bold-poppins {
+            font-family: 'Poppins', sans-serif; /* Use the Poppins font family */
+            font-weight: bold; /* Set the text to bold */
+             /* Set the color to red (replace with your preferred color code) */
+        }
+        body {
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center horizontally */
+            align-items: center;    /* Center vertically */
+            height: 100vh;           /* 100% viewport height for full-page centering */
+            margin: 0;               /* Remove default margin */
+            background-size: cover; 
+            background-position: center center;
+            padding: 0;
+            background-repeat: no-repeat; /* Prevent background image from repeating */
+            /*background-color: #FFFFFF; /* Set the background color to sky blue */
+        }
+        h2 {
+            
+            color: #28325a;
+            font-size: 1.4em;
+            line-height:1; /* Adjust line-height to increase vertical space */
+            margin-top: 25px;
+            text-align: left; /* Align the text to the left */
+            margin-left: 50px;
+            position: relative;
+            z-index: 1;
+        }
+         
+        
+        .form-container {
+            background-size: cover;  /* Ensure the background image covers the entire body */
+            background-repeat: no-repeat; /* Prevent background image from repeating */
+            padding: 50px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px #999;
+            width: 80%; /* Set the width of the container */
+            max-width: 600px; 
+        
+            text-align: center;
+            position: relative;
+            /* Adjust the margin to move the container upward */
+        }
+        .logo {
+            position: absolute; /* Position the logo absolutely within the container */
+            top: 20px; /* Adjust the top position */
+            left: 75px; /* Adjust the left position */
+            width: 150px; /* Adjust the width of the logo */
+            height: auto; 
+            z-index: 2;/* Maintain aspect ratio */
+        }
+        .form-field{
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.677), rgba(255, 255, 255, 0.37));
+            border: 2px solid transparent;;
+            margin-bottom: 10px;
+            margin-left: -20px;
+            padding: 4px;
+            border-radius: 5px;
+            color: #ffffff52; /* Set text color to white */
+            position: relative;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            
+        }
+        .form-field input {
+            border: none; /* Remove default input border */
+            background: linear-gradient(45deg, #ffffff, #ffffff); /* Ensure transparent input background */
+            width: calc(100% - 10px); /* Adjust input width */
+            padding: 2px; /* Adjust input padding */
+            color: #28325a; /* Set text color */
+        }
+        
+        .form-field input::placeholder {
+            color: #000000; /* Set placeholder text color */
+            opacity: 0.8; /* Set placeholder opacity */
+            outline: none; /* Remove default focus outline */
+            border-color: #ffffff; /* Change border color on focus */
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Add a subtle shadow on focus */
+        }
+        .btn-container {
+             /* Apply box shadow to the entire div */
+            display: flex;
+            margin-top: 30px; 
+            justify-content: center;
+            align-items: center;/* Adjust the margin as needed */
+        }
+   
+       .submit-button,
+       .home-button {
+            color: #ffffff; /* Set text color to white */
+            border: none; /* Remove button border */
+            padding: 10px 30px; /* Adjust padding for buttons */
+            margin: 30px; /* Add margin around buttons */
+            cursor: pointer;
+            border-radius: 2;
+            text-decoration: none; /* Remove underline from anchor */
+            display: inline-block; /* Ensure the anchor behaves as a block */
+            text-align: center; /* Center the button text */
+            transition: background-color 0.3s ease; 
+        }
+            
+        .submit-button {
+            background: linear-gradient(45deg, #c300a0, #28325a);
+            margin-left: -375px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+        .home-button:hover,
+        .submit-button:hover {
+            /* Adjust background color on hover */
+            filter: brightness(90%);
+        }
+        .home-button{
+            background: linear-gradient(45deg, #00B4D3, #28325a);
+            position: absolute;
+            text-decoration: none;
+            border-radius:0;
+            top: 10px;
+            left: 15px;
+            color: #ffffff;
+            padding: 10px 30px;
+        }
+        .login-link {
+            display: block; /* Ensure it takes full width */
+            text-align: left; /* Align to the left */
+            margin-top: 10px; /* Adjust spacing from the submit button */
+            color: #0e3ae9; /* Set text color */
+            text-decoration: none; /* Remove the underline */
+            border-bottom: none; /* Remove the bottom border */
+            outline: none; 
+            /* Other styles as needed */
+        }
+        .already-member {
+            color: #5f5959; /* Red color for "Already a Member!" */
+            /* Other styles as needed */
+            text-decoration: none; /* Remove the underline */
+            
+        }
+
+        .login-text {
+            color: #113ce7; /* Blue color for "Login" */
+            text-decoration: none;
+            font-size: 16px;
+            margin-bottom: 10px;
+        /* Remove the underline */
+            
+            /* Other styles as needed */
+        }
+        .welcome-message {
+            position: absolute;
+            flex-direction: column;
+            align-items: flex-end;
+            
+            top: 155px;
+            right: 100px;
+            text-align: right;
+            color: #fff; /* Text color */
+            font-size: 14px;
+            display: flex;
+            /* Other styles */
+        }
+        .welcome-message p {
+            margin: 0;
+            padding: 0;
+            line-height: 1;
+        }
+        .welcome-text {
+            display: block;
+            font-weight: bold;
+            font-size: 30px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .welcome-message p span.welcome-text {
+            display: block;
+            font-weight: bold;
+            font-size: 32px;
+            text-transform: uppercase;
+            margin-bottom: 25px;  /* Convert text to uppercase */
+        }
+        .welcome-message p span.continue-text {
+            display: block;
+            
+            margin-top: -30px;
+        }
+        .continue-text {
+            margin-right: 40px;
+            position: relative;
+            top: 0px;
+            display: block;
+            font-size: 14px;
+        }
+        .form-field input::placeholder {
+            color: #28325a; /* Set placeholder text color */
+            opacity: 0.8; /* Set placeholder opacity */
+            outline: none; /* Remove default focus outline */
+            border-color: #ffffff; /* Change border color on focus */
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Add a subtle shadow on focus */
+        }
+        .home-button:hover, .logout-but:hover, button:hover{
+            filter: brightness(90%);
+            border-radius: 20px;
+            color: #000000;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 16px;
+            background-color: #f44336; /* Red color for error */
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        /* Style for the pop-up content */
+        .popup-content {
+            font-weight: bold;
+        }    
+
+  </style>
+  <script>
+    function showPopup(message) {
+      var popup = document.getElementById("popup");
+      var popupContent = document.getElementById("popup-content");
+      popupContent.innerHTML = message;
+      popup.style.display = "block";
+    
+      setTimeout(function() {
+        popup.style.display = "none";
+      }, 3000); // Hide the popup after 3 seconds
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+          var error_message = "{{ error_message }}";
+          if (error_message) {
+            showPopup(error_message);
+          }
+        });
+    </script>
+    
+</head>
+<body>
+    
+
+<div class="form-container">
+        
+    <h2><span class="bold-poppins">Register </span></h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form">
+                               
+                <div class="form-field" style="width: 40%;">
+                    <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}" placeholder="user name" required>
+                </div>
+                
+                <div class="form-field" style="width: 40%;">
+                    <input type="password" name="{{ form.password1.name }}" id="{{ form.password1.id_for_label }}" placeholder="password" required>
+                </div>
+                
+                <div class="form-field" style="width: 40%;">
+                    <input type="password" name="{{ form.password2.name }}" id="{{ form.password2.id_for_label }}" placeholder="re-enter password" required>
+                </div>
+                
+            <div class="btn-container">
+                <button type="submit" class="submit-button">Submit</button>
+                {{ form.non_field_errors }}
+                
+                <br>
+                
+            </div>
+        </div>
+        <!-- {% if error_message %}
+            <p class="error">{{ error_message }}</p>
+        {% endif %} -->
+            <a href="{% url 'taskboard:login' %}" class="login-link">
+            <span class="already-member">Already a Member!</span><span class="login-text"> Please Log in.</span></a>
+
+    
+        <div class="welcome-message">
+            <p><span class="welcome-text">WELCOME !</span><br><span class="continue-text">Register to Continue</span></p>
+            
+        </div>
+            
+            
+        </form>
+       
+        
+    </div>
+   
+  
+</div>
+
+    </div>
+    <div id="popup" class="popup">
+        <span class="popup-content" id="popup-content"></span>
+    </div>
+    
+          
+</body>
+</html>
+

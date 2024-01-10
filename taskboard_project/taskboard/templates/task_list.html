@@ -1,0 +1,155 @@
+<!-- taskboard/templates/task_list.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+    <style>
+        /* Add your custom styles here */
+        body {
+            text-align: center; /* Center-align the content */
+        }
+
+        button {
+            /*background-color: #00B4D2; /* Set the button background color to RGB(8, 8, 68) */
+            background: linear-gradient(45deg, #00B4D3, #28325a);
+            color: #ffffff; /* Set text color to black */
+            border: none; /* Remove button border */
+            padding: 10px 20px; /* Adjust padding for buttons */
+            margin: 5px; /* Add margin around buttons */
+            cursor: pointer;
+        }
+
+        h1 {
+            margin: 20px 0; /* Add some top and bottom margin for spacing */
+        }
+
+        .task-board {
+            display: flex;
+            justify-content: space-between; /* Arrange the lists side by side */
+        }
+
+        .task-list {
+            width: 48%; /* Adjust as needed */
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 5px;
+        }
+
+        .task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding: 8px;
+        }
+
+        .task p {
+            margin: 0;
+            flex-grow: 1;
+            text-align: left; /* Left-align the task title */
+        }
+
+        .task .status {
+            display: flex;
+            align-items: center;
+        }
+
+        .task .status button {
+            margin-left: 10px;
+        }
+        .task-list {
+            /* Add styles for droppable area */
+            border: 2px dashed #ccc;
+            min-height: 100px;
+        }
+
+        .task {
+            /* Add styles for draggable tasks */
+            cursor: grab;
+            border: 1px solid #ddd;
+            padding: 8px;
+            margin: 5px 0;
+            background-color: #f9f9f9;
+        }
+    </style>
+    <!-- Add your other stylesheets and scripts here -->
+</head>
+<body>
+    <h1>Task Board</h1>
+
+    <div class="task-board">
+        {% for list_id in lists %}
+            <div class="task-list" id="list{{ list_id }}" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <h2>List {{ list_id }}</h2>
+                
+                <!-- Form for adding a new task -->
+                <form method="post" action="{% url 'taskboard:add_task' %}">
+                    {% csrf_token %}
+                    <input type="text" name="task_title" placeholder="New Task Title" required>
+                    <input type="hidden" name="list_id" value="{{ list_id }}">
+                    <button type="submit">Add Task</button>
+                </form>
+                
+                {% for task in tasks %}
+                    {% if task.list_id == list_id %}
+                        <div class="task" id="task{{ task.id }}" draggable="true" ondragstart="drag(event)">
+                            <p>{{ task.title }}</p>
+                            
+                            <div class="status">
+                                <span>{% if task.completed %}Completed{% else %}Not Completed{% endif %}</span>
+                                <form method="post" action="{% url 'taskboard:change_status' task.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit">Change Status</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drag(event) {
+            event.dataTransfer.setData("text", event.target.id);
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            var data = event.dataTransfer.getData("text");
+            var draggedElement = document.getElementById(data);
+            var destinationList = event.target.closest('.task-list');
+
+            // Ensure the drop target is a task-list
+            if (destinationList && destinationList.classList.contains('task-list')) {
+                destinationList.appendChild(draggedElement);
+
+                // Perform the necessary actions to update the database with the new list_id
+                var taskId = data.replace('task', '');  // Extract the task ID from the dragged element's ID
+                var newListId = destinationList.id.replace('list', '');  // Extract the list ID from the destination list's ID
+
+                // Perform an AJAX request to update the database with the new list_id for the task
+                // Example using fetch:
+                fetch(`/update_task_list/${taskId}/${newListId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
+                    },
+                    body: JSON.stringify({}),
+                })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error('Error:', error));
+            }
+        }
+    </script>
+</body>
+</html>
